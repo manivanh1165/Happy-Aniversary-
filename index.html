@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Letter Surprise — Happy 5th Anniversary</title>
+<style>
+:root{
+  --bg: #fff7f6;
+  --card: #fff;
+  --accent: #ff6b88;
+  --muted: #6b6b6b;
+  --shadow: 0 10px 30px rgba(20,20,30,0.08);
+  --radius: 14px;
+}
+html,body{
+  height:100%;margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Nunito", "Noto Sans", "Segoe UI", Roboto; 
+  background:linear-gradient(180deg,#fff7f6 0%, #fff 60%);
+  display:flex;align-items:center;justify-content:center;color:#222
+}
+.card{
+  width:min(760px,94vw);
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px;
+  display:flex;
+  gap:20px;
+  position:relative;
+  overflow:hidden;
+}
+.left{
+  flex:1 1 360px;
+  min-width:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.cover {
+  width:100%;
+  height: 220px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#ffe9ee,#fff3f7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  box-shadow:inset 0 -6px 20px rgba(255,107,136,0.08);
+  padding:18px;
+  text-align:center;
+}
+.cover h1{margin:0;font-size:1.4rem;color:var(--accent);letter-spacing:0.6px}
+.cover p{margin:8px 0 0;color:var(--muted)}
+.open-btn{
+  margin-top:14px;
+  padding:10px 18px;
+  background:linear-gradient(90deg,var(--accent),#ff8aa0);
+  color:white;border:none;border-radius:999px;cursor:pointer;font-weight:600;
+  box-shadow:0 6px 18px rgba(255,107,136,0.18);outline:none
+}
+.open-btn:active{transform:translateY(1px)}
+.right{
+  flex:1 1 340px;
+  min-width:220px;
+  padding:8px 6px;
+}
+.message {
+  background:linear-gradient(180deg,#fff,#fff8fb);
+  border-radius:12px;
+  padding:18px;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  justify-content:center;
+  align-items:flex-start;
+  box-shadow:0 6px 20px rgba(10,10,20,0.03);
+}
+.line{
+  opacity:0;
+  transform:translateY(12px) scale(.995);
+  transition:opacity .45s ease, transform .45s ease;
+  font-size:1rem; color:#222; line-height:1.45;
+}
+.line.revealed{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.gift-btn{
+  margin-top:8px;
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:10px;
+  background:transparent;
+  border:2px solid var(--accent);
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:700;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .5s ease, transform .5s ease;
+}
+.gift-btn.visible{opacity:1; transform:translateY(0)}
+.burst {
+  position:absolute;
+  pointer-events:none;
+  inset:0;
+}
+.burst span{
+  position:absolute; opacity:0; transform:translateY(-8px) scale(.9);
+  animation:floatUp 900ms forwards;
+  font-size:18px;
+}
+@keyframes floatUp{
+  0%{opacity:0; transform:translateY(4px) scale(.8)}
+  35%{opacity:1; transform:translateY(-6px) scale(1.05)}
+  100%{opacity:0; transform:translateY(-30px) scale(.9)}
+}
+@media (max-width:700px){
+  .card{flex-direction:column; padding:18px}
+  .cover{height:180px}
+}
+</style>
+</head>
+<body>
+<div class="card" role="region" aria-label="Letter Surprise">
+  <div class="left">
+    <div class="cover" aria-hidden="true">
+      <h1>Happy 5th Anniversary ❤️</h1>
+      <p>Open the surprise when you're ready</p>
+      <button class="open-btn" id="openBtn" aria-controls="messageArea" aria-expanded="false">Open Surprise</button>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="message" id="messageArea" tabindex="0">
+      <p class="line" data-delay="0">My Babew 💕</p>
+      <p class="line" data-delay="300">Happy anniversary to us. Even though we’re miles apart right now, my heart still feels close to you every single day.</p>
+      <p class="line" data-delay="600">Sometimes it’s hard not being able to see you, hug you, or laugh with you in person, but I know that what we have is real and strong enough to handle the distance.</p>
+      <p class="line" data-delay="900">Every message, every call, every memory we share means the world to me. You make me feel loved, safe, and special, even from far away.</p>
+      <p class="line" data-delay="1200">Thank you for always understanding me and for staying by my side no matter how far we are.</p>
+      <p class="line" data-delay="1500">I can’t wait for the day we can finally be together again to do all the little things we miss right now.</p>
+      <p class="line" data-delay="1800">Until then, please remember that I’m always thinking of you, loving you, and cheering you on from here.</p>
+      <p class="line" data-delay="2100">With all my heart,<br>Your Muimui 💕</p>
+
+      <a id="giftLink" class="gift-btn" href="https://www.youtube.com/watch?v=gJcIm87v0bc&list=RDgJcIm87v0bc&start_radio=1" target="_blank" rel="noopener" aria-hidden="true">Our Song</a>
+    </div>
+  </div>
+
+  <div class="burst" id="burstArea" aria-hidden="true"></div>
+</div>
+
+<script>
+const openBtn = document.getElementById('openBtn');
+const lines = document.querySelectorAll('.line');
+const giftLink = document.getElementById('giftLink');
+const burstArea = document.getElementById('burstArea');
+
+function playBurst(){
+  const emojis = ['💖','✨','🎉','💕','🌟'];
+  for(let i=0;i<10;i++){
+    const span=document.createElement('span');
+    span.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    span.style.left = (10+Math.random()*80) + '%';
+    span.style.top = (10+Math.random()*60) + '%';
+    span.style.fontSize = (12+Math.random()*18) + 'px';
+    span.style.animationDelay = (i*60)+'ms';
+    burstArea.appendChild(span);
+    setTimeout(()=>span.remove(),1400+i*60);
+  }
+}
+
+function revealAll(){
+  openBtn.disabled=true;
+  openBtn.setAttribute('aria-expanded','true');
+  lines.forEach(line=>{
+    const delay=parseInt(line.dataset.delay || 0,10);
+    setTimeout(()=> line.classList.add('revealed'), delay);
+  });
+  const lastDelay = Math.max(...Array.from(lines).map(l=>parseInt(l.dataset.delay||0,10)));
+  setTimeout(()=>{
+    giftLink.classList.add('visible');
+    giftLink.setAttribute('aria-hidden','false');
+    playBurst();
+    giftLink.focus();
+  }, lastDelay+400);
+}
+
+openBtn.addEventListener('click', ()=>{if(!openBtn.disabled) revealAll();});
+document.querySelector('.cover').addEventListener('click', ev=>{if(ev.target!==openBtn&&!openBtn.disabled) openBtn.click();});
+</script>
+</body>
+</html>
